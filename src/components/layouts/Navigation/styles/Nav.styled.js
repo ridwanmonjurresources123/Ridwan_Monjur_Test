@@ -16,7 +16,7 @@ Nav.Icon = styled.img`
 `
 
 Nav.Link = styled.span`
-  display: iline-block;
+  display: inline-block;
   padding: 5px 10px 0px 0px;
   text-transform: uppercase;
 

@@ -4,6 +4,7 @@ let Dropdown = styled.div`
 position: relative;
 font-size: 15px;
 display: inline;
+z-index: 1;
 `
 
 Dropdown.Button = styled.span`
@@ -19,11 +20,14 @@ background-color: ${({ theme }) => theme.colors.header};
 
 Dropdown.Items = styled.div`
 position: absolute;
+color: black;
 top: 25px; 
 left: 0px;
 ${({ isInvisible }) => isInvisible && `
   display: none;
 `}
+z-index: 999;
+
 `
 
 export default Dropdown 

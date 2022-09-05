@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import Cart from '../../components/product/Cart';
+import CartComponent from '../../components/product/CartComponent';
 
 class ProductCart extends Component {
     constructor() {
@@ -17,11 +17,24 @@ class ProductCart extends Component {
 
     }
     render() {
+
+
         return (
             <div>
-                <h3>Cart</h3>
-                <Cart productArray={this.productArray}/>
-            </div>
+                {
+                    this.productArray && this.productArray.map((value) => {
+                        let stringArray = value.title.split(" ")
+
+                        let [first, ...remaining] = stringArray
+
+                        remaining = remaining.join(" ")
+
+                        return (
+                            <CartComponent cart={{...value, first, remaining}}  key={value.id}/>
+                        )
+                    })
+                }
+            </div >
         );
     }
 }
