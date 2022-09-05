@@ -4,11 +4,11 @@ import Logo from '../../logo.svg';
 
 const LoadingSpinnerImg = styled.img`
     
-    height: 10vmin;
+    height: 20vmin;
     pointer-events: none;
   
     @media (prefers-reduced-motion: no-preference) {
-        animation: App-logo-spin infinite 20s linear;
+        animation: App-logo-spin infinite 5s linear;
     }
 
     @media (max-width: ${({ theme }) => theme.mobile}) {
