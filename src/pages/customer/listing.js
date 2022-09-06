@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import CardComponent from '../../components/product/CardComponent';
-import { Grid } from '../../components/product/styles';
+import { GridCart } from '../../components/product/styles';
 import { withRouterHOC } from '../../utils/withRouterHOC';
 
-class ProductListing extends Component {
+class ListingPage extends Component {
     constructor() {
         super()
 
@@ -27,13 +27,13 @@ class ProductListing extends Component {
         return (
             <div>
                 <h3> {category} </h3>
-                <Grid>
+                <GridCart>
                     {
                         this.cardArray && this.cardArray.map((value) =>
                             <CardComponent cardValue={value} key={value.id} />
                         )
                     }
-                </Grid>
+                </GridCart>
 
                 ProductListing 
 
@@ -42,4 +42,4 @@ class ProductListing extends Component {
     }
 }
 
-export default withRouterHOC(ProductListing);
+export default withRouterHOC(ListingPage);

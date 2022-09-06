@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import CartComponent from '../../components/product/CartComponent';
 
-class ProductCart extends Component {
+class CartPage extends Component {
     constructor() {
         super()
 
@@ -39,4 +39,4 @@ class ProductCart extends Component {
     }
 }
 
-export default ProductCart;
+export default CartPage;

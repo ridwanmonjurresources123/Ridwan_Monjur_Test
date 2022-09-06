@@ -26,8 +26,4 @@ Product.Subtitle = styled.div`
 `
 
 
-Product.Preview = styled.img`
-vertical-align: baseline;
-`
-
 export default Product

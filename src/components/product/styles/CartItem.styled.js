@@ -58,4 +58,8 @@ CartItem.Colorbox = styled.div`
     }
 `
 
+CartItem.Preview = styled.img`
+vertical-align: baseline;
+`
+
 export default CartItem

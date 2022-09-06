@@ -1,8 +1,9 @@
 import Card from "./Card.styled"
-import Grid from "./Grid.styled"
+import GridCart from "./GridCart.styled"
 import CartItem from "./CartItem.styled"
 import Product from "./Product.styled"
+import Description from "./Description.styled"
 
 export {
-    Card, Grid, CartItem, Product
+    Card, GridCart, CartItem, Product, Description
 }
