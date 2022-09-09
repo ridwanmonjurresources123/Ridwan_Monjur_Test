@@ -36,12 +36,12 @@ class DescriptionPage extends Component {
         remaining = remaining.join(" ")
 
         return (
-            <div>
+            <main>
                 <Description>
                     <ProductPreview  images={this.description.src}/>
                     <ProductDescription description={{...this.description, first, remaining}}  key={this.description.id}/>
                 </Description>
-            </div>
+            </main>
         );
     }
 }

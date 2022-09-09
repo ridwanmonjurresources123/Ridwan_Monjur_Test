@@ -25,7 +25,7 @@ class ListingPage extends Component {
         category = category.charAt(0).toUpperCase() + category.slice(1)
 
         return (
-            <div>
+            <main>
                 <h3> {category} </h3>
                 <GridCart>
                     {
@@ -37,7 +37,7 @@ class ListingPage extends Component {
 
                 ProductListing 
 
-            </div>
+            </main>
         );
     }
 }

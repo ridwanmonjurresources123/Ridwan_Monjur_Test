@@ -10,13 +10,14 @@ class CartComponent extends Component {
     }
 
     render() {
-        console.log(this.props)
 
-        let {cart} = this.props
+        let {cart, isOverlay} = this.props
+
+        console.log({cart, isOverlay})
 
         return (
 
-            <CartItem>
+            <CartItem isOverlay={isOverlay}>
                 <div>
                     <Product.Brand>
                         {cart.first}
@@ -27,6 +28,7 @@ class CartComponent extends Component {
                     <Product.Price>
                         ${cart.price}
                     </Product.Price>
+                    {!isOverlay && <br/>}
                     <Product.Subtitle>
                         Size
                     </Product.Subtitle>
@@ -44,13 +46,13 @@ class CartComponent extends Component {
                         <CartItem.Colorbox backgroundColor="green" />
                     </div>
                 </div>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <CartItem.QuantitySizebox>
-                        <CartItem.Sizebox paddingX={"3px"} paddingY={"3px"}>+</CartItem.Sizebox>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <CartItem.QuantitySizebox isOverlay={isOverlay}>
+                        <CartItem.Sizebox isOverlay={isOverlay} paddingX={"3px"} paddingY={"3px"}>+</CartItem.Sizebox>
                         <span style={{ margin: "auto" }}>1</span>
-                        <CartItem.Sizebox paddingX={"3px"} paddingY={"3px"}>M</CartItem.Sizebox>
+                        <CartItem.Sizebox isOverlay={isOverlay}  paddingX={"3px"} paddingY={"3px"}>-</CartItem.Sizebox>
                     </CartItem.QuantitySizebox>
-                    <CartItem.Preview src={cart.src} width={160} />
+                    <CartItem.Preview isOverlay={isOverlay} src={cart.src} />
                 </div>
             </CartItem>
 

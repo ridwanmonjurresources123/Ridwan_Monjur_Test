@@ -2,11 +2,18 @@ import styled from 'styled-components'
 
 let CartItem = styled.div`
     display: flex;
-    justify-content: space-between;
     border-top: 1px solid rgb(217, 215, 215);
-    padding: 10px;
-    margin: 0px;
-    border-collapse: collapse;
+    justify-content: space-between;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    ${({ isOverlay }) => isOverlay && `
+        font-size: 15px;
+        border-top: 0px solid rgb(217, 215, 215);
+        gap: 50px;
+        width: 300px;
+
+    `}}
+   
 `
 
 CartItem.Sizebox = styled.span`
@@ -15,51 +22,66 @@ CartItem.Sizebox = styled.span`
     padding: ${({ paddingX, paddingY }) =>
         `${paddingX} ${paddingY}`} ;
     font-size: small;
+    margin-bottom: 20px;
     margin-right: 5px;
+    ${({ isOverlay }) => isOverlay && `
+        margin-bottom: 0px;
+    ` }
     border: 1px solid black;
     ${({ active }) => active && `
     background-color: black;
     color: white;
-
     ` }
     &:hover{
-        background-color: rgb(217, 215, 215);
-    }
-    `
-
-CartItem.Colorbox = styled.div`
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-    margin-right: 5px;
-    border: 1px solid black;
-    background-color: ${({ backgroundColor }) => backgroundColor}
-    &:hover{
-        background-color: rgb(217, 215, 215);
+        background-color:  ${({ theme }) => `${theme.colors.hoverBg}`};
     }
 `
+
+
 CartItem.QuantitySizebox = styled.div`
     cursor: pointer;
-    display: inline-flex;
-    height: 80%;
+    display: flex;
     flex-direction: column;
     justify-content: space-around;
-   
-`
-CartItem.Colorbox = styled.div`
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-    margin-right: 5px;
-    border: 1px solid black;
-    background-color: ${({ backgroundColor }) => backgroundColor};
-    &:hover{
-        padding: 9px;
+    ${({ isOverlay }) =>
+        isOverlay && `
+            max-width: 50px;
+            height: 60px !important;
+        `
+        ||
+        !isOverlay && `
+            height: 80%;
+        `
     }
+ 
 `
 
 CartItem.Preview = styled.img`
-vertical-align: baseline;
+    max-width: 350px;
+    max-height: 350px;
+    margin-bottom: 10px;
+    ${({ isOverlay }) =>
+        isOverlay && `
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 0;
+
+        `
+    }
+
+`
+
+CartItem.Colorbox = styled.div`
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 5px;
+    border: 1px solid black;
+    background-color: ${({ backgroundColor }) => `${backgroundColor}`};
+    &:hover{
+        background-color:  ${({ theme }) => `${theme.colors.hoverBg}`};
+        padding: 9px;
+    }
 `
 
 export default CartItem

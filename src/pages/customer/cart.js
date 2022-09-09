@@ -17,10 +17,10 @@ class CartPage extends Component {
 
     }
     render() {
-
+        let isOverlay = false
 
         return (
-            <div>
+            <main>
                 {
                     this.productArray && this.productArray.map((value) => {
                         let stringArray = value.title.split(" ")
@@ -30,11 +30,11 @@ class CartPage extends Component {
                         remaining = remaining.join(" ")
 
                         return (
-                            <CartComponent cart={{...value, first, remaining}}  key={value.id}/>
+                            <CartComponent cart={{...value, first, remaining, isOverlay}}  key={value.id}/>
                         )
                     })
                 }
-            </div >
+            </main >
         );
     }
 }

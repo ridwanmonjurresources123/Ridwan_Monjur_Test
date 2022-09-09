@@ -11,7 +11,9 @@ const theme = {
     header: 'white',
     body: '#fff',
     footer: '#003333',
-    primary: '#54DA7D'
+    primary: '#54DA7D',
+    hoverBg: 'rgb(217, 215, 215)',
+    hoverColor: 'white'
   },
   mobile: '768px',
 }

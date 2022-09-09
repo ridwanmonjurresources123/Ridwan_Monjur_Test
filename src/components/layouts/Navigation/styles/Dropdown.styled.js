@@ -19,14 +19,14 @@ background-color: ${({ theme }) => theme.colors.header};
 `
 
 Dropdown.Items = styled.div`
+background: #fff;
 position: absolute;
 color: black;
 top: 25px; 
-left: 0px;
+right: 0px;
 ${({ isInvisible }) => isInvisible && `
   display: none;
 `}
-z-index: 999;
 
 `
 
