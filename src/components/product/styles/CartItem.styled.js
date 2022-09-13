@@ -5,6 +5,7 @@ let CartItem = styled.div`
     border-top: 1px solid rgb(217, 215, 215);
     justify-content: space-between;
     padding-top: 10px;
+    padding-left: 10px;
     padding-bottom: 0px;
     ${({ isOverlay }) => isOverlay && `
         font-size: 15px;

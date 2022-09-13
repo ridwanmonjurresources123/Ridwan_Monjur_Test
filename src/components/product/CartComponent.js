@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { CartItem, Product } from './styles'
-
+import { connect } from 'react-redux'
 
 class CartComponent extends Component {
     constructor() {
@@ -10,9 +10,8 @@ class CartComponent extends Component {
 
     render() {
 
-        let {cart, isOverlay} = this.props
-
-
+        let {cart, isOverlay, currentCurrency} = this.props
+        console.log({coreect:  cart})
         return (
 
             <CartItem isOverlay={isOverlay}>
@@ -24,7 +23,7 @@ class CartComponent extends Component {
                         {cart.name}
                     </Product.Title>
                     <Product.Price>
-                        ${cart.price}
+                        {currentCurrency.symbol} {cart.prices[currentCurrency.index].amount}
                     </Product.Price>
                     {!isOverlay && <br/>}
                     <Product.Subtitle>
@@ -58,4 +57,13 @@ class CartComponent extends Component {
     }
 }
 
-export default CartComponent
+
+function mapStateToProps(state) {
+    return {
+        currentCurrency: state.productReducer.currentCurrency,
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(CartComponent)

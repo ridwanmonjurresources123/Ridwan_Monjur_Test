@@ -8,22 +8,21 @@ z-index: 1;
 `
 
 Dropdown.MenuButton = styled.span`
-padding: 10px;
+padding: 10px 40px;
 border: 0px solid red;
 display: inline-block;
-cursor: pointer;
 background-color: ${({ theme }) => theme.colors.header};
-&:hover{
-  background-color: gray;
-}
 `
 
 Dropdown.ItemContainer = styled.div`
 background: #fff;
 position: absolute;
 color: black;
-top: 25px; 
-right: 0px;
+top: 30px; 
+right: 10px;
+border: 1px solid ${({theme})=> theme.colors.hoverBg};
+box-shadow: 2px 3px ${({theme})=> theme.colors.hoverBg};
+
 ${({ isInvisible }) => isInvisible && `
   display: none;
 `}
@@ -31,10 +30,9 @@ ${({ isInvisible }) => isInvisible && `
 
 Dropdown.ItemDiv = styled.div`
   background: #fff;
-  padding: 0 10px;
+  padding: 10px 20px;
   &:hover{
-    background-color: gray;
-    color: white
+    background-color: ${({theme})=> theme.colors.hoverBg};
   }
 `
 

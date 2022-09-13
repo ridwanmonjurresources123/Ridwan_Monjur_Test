@@ -3,7 +3,7 @@ import { PAUSE } from "reduxjs-toolkit-persist"
 import { changeCurrencyAction, fetchAllCurrenciesAndCategoriesAction } from "./products-action"
 
 export const productState = {
-  currency: "USD",
+  currentCurrency: {symbol: '$', label: 'USD', index: 0},
   currencies: [],
   categories: [],
   loading: false,
@@ -12,12 +12,13 @@ export const productState = {
 
 const currencyReducer = createReducer(productState, (builder) => {
   builder.addCase(changeCurrencyAction, (state, { payload }) => {
-    console.log({payload})
-    return {}
+    return {
+      ...state,
+      currentCurrency: payload
+    }
   })
 
   builder.addCase(fetchAllCurrenciesAndCategoriesAction.fulfilled, (state, { payload }) => {
-    console.log({payload})
     return {
       ...state,
       loading: false,
@@ -27,7 +28,6 @@ const currencyReducer = createReducer(productState, (builder) => {
   })
 
   builder.addCase(fetchAllCurrenciesAndCategoriesAction.rejected, (state, { payload }) => {
-    console.log({payload})
     return {
       ...state,
       loading: false

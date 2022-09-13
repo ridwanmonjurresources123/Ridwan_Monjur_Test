@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Grid } from './styles'
-
+import { connect } from 'react-redux'
 
 class CardComponent extends Component {
     constructor() {
@@ -17,7 +17,8 @@ class CardComponent extends Component {
     render() {
 
         // No loop in this part, just expose component/ block made of elements!
-        let { cardValue } = this.props
+        let { cardValue, currentCurrency } = this.props
+        console.log({currect: cardValue.prices[currentCurrency.index].amount})
         /* 
         brand: "Sony"
         gallery; (5) 
@@ -38,7 +39,7 @@ class CardComponent extends Component {
                         {cardValue.inStock ? <></> : <Card.OutOfStock>Out of Stock</Card.OutOfStock>}
 
                         <Card.Subtitle inStock={cardValue.inStock}>
-                            ${cardValue.prices[0].amount}
+                            {currentCurrency.symbol} {cardValue.prices[currentCurrency.index].amount}
                         </Card.Subtitle>
                     </Link>
 
@@ -49,4 +50,13 @@ class CardComponent extends Component {
     }
 }
 
-export default CardComponent
+
+function mapStateToProps(state) {
+    return {
+        currentCurrency: state.productReducer.currentCurrency,
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(CardComponent)

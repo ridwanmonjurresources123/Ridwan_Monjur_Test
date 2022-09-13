@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import { connect } from 'react-redux'
 import { CartItem, Description, Product } from './styles'
 
 
@@ -9,9 +10,9 @@ class ProductDescription extends Component {
 
     render() {
 
-        let { description } = this.props
+        let { description, currentCurrency } = this.props
 
-        console.log({description})
+        console.log({description, currentCurrency})
 
         return (
             <>
@@ -46,7 +47,7 @@ class ProductDescription extends Component {
                         Price
                     </Product.Subtitle>
                     <Product.Price>
-                        ${description.prices[0].symbol} ${description.prices[0].amount}
+                        {currentCurrency.symbol} {description.prices[currentCurrency.index].amount}
                     </Product.Price>
 
                 </Description.Text>
@@ -55,4 +56,14 @@ class ProductDescription extends Component {
     }
 }
 
-export default ProductDescription
+
+
+function mapStateToProps(state) {
+    return {
+        currentCurrency: state.productReducer.currentCurrency,
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(ProductDescription)

@@ -6,19 +6,8 @@ import {
   decrementValueToCartAction,
 } from "./cart-action"
 
-let newArray = Array(5).fill({
-  src: "https://cdn.shopify.com/s/files/1/0071/6665/6579/products/RunningT-shirtIMG_0762_720x.png?v=1600684690",
-  title: "Apollo Running Shirt",
-  price: 45
-})
-
-newArray = newArray.map((val, index)=> {
-  return {...val, id: index}
-})
-
-
 export const cartState = {
-  cart: newArray,
+  cart: [],
   loading: false,
   error: ''
 }

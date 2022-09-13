@@ -15,8 +15,8 @@ const theme = {
     body: '#fff',
     footer: '#003333',
     primary: '#54DA7D',
-    hoverBg: 'rgb(217, 215, 215)',
-    hoverColor: 'white'
+    activeBg: 'rgb(217, 215, 215)',
+    hoverBg: 'rgb(200, 200, 200, 0.3)',
   },
   mobile: '768px',
 }

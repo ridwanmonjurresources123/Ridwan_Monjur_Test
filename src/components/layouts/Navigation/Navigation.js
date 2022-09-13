@@ -6,10 +6,16 @@ import CompanyLogo from '../../../images/company.png'
 import CartComponent from '../../product/CartComponent'
 import { connect } from 'react-redux'
 import { withRouterHOC } from '../../../utils/withRouterHOC'
+import DropdownIcon from './styles/DropdownIcon.styled'
+import { changeCurrencyAction } from '../../../redux/products/products-action'
+
+const initialState = {
+    cartDropdown: true, currencyDropdown: true
+}
 
 class Navigation extends Component {
     state = {
-        dropDownClose: [true, true]
+        dropDownClose: {...initialState}
     }
 
     changeOpacity(opacity) {
@@ -22,25 +28,27 @@ class Navigation extends Component {
             currentElement = sibling
 
             if (sibling) sibling.style.opacity = opacity
-
         }
     }
 
-    toggleDropDownState(index) {
+    toggleDropDownState(key) {
         this.setState(prevState => {
-            let newDropDownClose = Array(2).fill(true)
+            let newDropDownClose = {...initialState}
 
-            newDropDownClose[index] = !prevState.dropDownClose[index]
+            newDropDownClose[key] = !prevState.dropDownClose[key]
 
             let currentStyle = this.myRef.current.style
 
-            if ((newDropDownClose[0] === false)) {
+            if ((newDropDownClose[key] === false)) {
                 this.changeOpacity(0.3)
 
                 currentStyle.zIndex = "999"
             }
             else {
                 this.changeOpacity(1)
+            
+                currentStyle.zIndex = "1"
+
             }
 
             return {
@@ -50,7 +58,11 @@ class Navigation extends Component {
         })
     }
 
+    changeCurrency(currentCurrency){
+        this.props.dispatchChangeCurrencyAction(currentCurrency)
 
+        this.toggleDropDownState('currencyDropdown')
+    }
 
     constructor() {
         super()
@@ -60,12 +72,10 @@ class Navigation extends Component {
         this.toggleDropDownState = this.toggleDropDownState.bind(this)
 
         this.changeOpacity = this.changeOpacity.bind(this)
-
     }
 
     render() {
         // delete this
-        console.log({ Navigation: this.props })
 
         return (
             <Nav ref={this.myRef} id='nav'>
@@ -89,8 +99,12 @@ class Navigation extends Component {
                 </div>
                 <div>
                     <Dropdown>
-                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState(0)}>Cart</Dropdown.MenuButton>
-                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose[0]}>
+                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState('cartDropdown')}>
+                            <DropdownIcon>$
+                                <DropdownIcon.Arrow>⌄</DropdownIcon.Arrow>
+                            </DropdownIcon>
+                        </Dropdown.MenuButton>
+                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['cartDropdown']}>
                             {
                                 this.props.cart && this.props.cart.map((value) => {
                                     return (
@@ -100,15 +114,20 @@ class Navigation extends Component {
                             }
                         </Dropdown.ItemContainer>
                     </Dropdown>
-
                     <Dropdown>
-                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState(1)}>This is menu 2</Dropdown.MenuButton>
-
-                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose[1]}>
+                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState('currencyDropdown')}>
+                            <DropdownIcon>🛒</DropdownIcon>
+                        </Dropdown.MenuButton>
+                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['currencyDropdown']}>
                             {
-                                this.props.currencies && this.props.currencies.map((value) => {
+                                this.props.currencies && this.props.currencies.map((value, index) => {
                                     return (
-                                        <Dropdown.ItemDiv> {value.symbol} {value.label} </Dropdown.ItemDiv>
+                                        <Dropdown.ItemDiv
+                                        onClick={ () => this.changeCurrency({...value, index}) }
+
+                                        >
+                                            {value.symbol} {value.label}
+                                        </Dropdown.ItemDiv>
                                     )
                                 })
                             }
@@ -130,8 +149,15 @@ function mapStateToProps(state) {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatchChangeCurrencyAction: (currentCurrency) => dispatch(changeCurrencyAction(currentCurrency)),
+    }
+}
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(withRouterHOC(Navigation))
 
 
