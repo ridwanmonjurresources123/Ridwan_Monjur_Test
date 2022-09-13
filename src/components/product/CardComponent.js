@@ -1,34 +1,40 @@
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Card, Grid } from './styles';
+import { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { Card, Grid } from './styles'
 
 
 class CardComponent extends Component {
     constructor() {
         super()
 
-        console.log(this.props)
     }
 
     render() {
 
         // No loop in this part, just expose component/ block made of elements!
-        let {cardValue} = this.props
-        
-         return (
+        let { cardValue } = this.props
+        /* 
+        brand: "Sony"
+        gallery; (5) 
+        id: "ps-5"
+        inStock: false
+        name: "PlayStation 5"
+        prices: Array(5)
+        */
+        return (
             <Card>
-                <Link to="../category/women" replace>
-                    <Card.Image src={cardValue.src} />
+                <Link to={`../product/${cardValue.id}`} replace>
+                    <Card.Image src={cardValue.gallery[0]} />
                     <Card.Title>
-                        {cardValue.title}
+                        {cardValue.brand} {cardValue.name}
                     </Card.Title>
                     <Card.Subtitle>
-                        ${cardValue.price}
+                        ${cardValue.prices[0].amount}
                     </Card.Subtitle>
                 </Link>
             </Card>
-        );
+        )
     }
 }
 
-export default CardComponent;
+export default CardComponent

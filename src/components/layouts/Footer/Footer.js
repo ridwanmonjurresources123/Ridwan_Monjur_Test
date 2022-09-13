@@ -25,7 +25,7 @@ export default function Footer() {
           </ul>
 
 
-        <p>&copy; 2021 Huddle. All rights reserved</p>
+        <p>&copy 2021 Huddle. All rights reserved</p>
     </StyledFooter>
   )
 }

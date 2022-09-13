@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import { CartItem, Description, Product } from './styles';
+import { Component } from 'react'
+import { CartItem, Description, Product } from './styles'
 
 
 class ProductDescription extends Component {
@@ -11,14 +11,16 @@ class ProductDescription extends Component {
 
         let { description } = this.props
 
+        console.log({description})
+
         return (
             <>
                 <Description.Text>
                     <Product.Brand>
-                        {description.first}
+                        {description.brand}
                     </Product.Brand>
                     <Product.Title>
-                        {description.remaining}
+                        {description.name}
                     </Product.Title>
 
                     <Product.Subtitle>
@@ -44,13 +46,13 @@ class ProductDescription extends Component {
                         Price
                     </Product.Subtitle>
                     <Product.Price>
-                        ${description.price}
+                        ${description.prices[0].symbol} ${description.prices[0].amount}
                     </Product.Price>
 
                 </Description.Text>
             </>
-        );
+        )
     }
 }
 
-export default ProductDescription;
+export default ProductDescription

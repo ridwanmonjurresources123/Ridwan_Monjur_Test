@@ -1,49 +1,53 @@
-import { Component } from 'react';
-import ProductPreview from '../../components/product/ProductPreview';
-import ProductDescription from '../../components/product/ProductDescription';
-import { Description } from '../../components/product/styles';
-import { withRouterHOC } from '../../utils/withRouterHOC';
+import { Component } from 'react'
+import ProductPreview from '../../components/product/ProductPreview'
+import ProductDescription from '../../components/product/ProductDescription'
+import { Description } from '../../components/product/styles'
+import { withRouterHOC } from '../../utils/withRouterHOC'
+import { fetchProducById } from '../../services/gqlApi'
 
 class DescriptionPage extends Component {
-    constructor() {
-        super()
+    state = {
+        description: null
+    }
 
-        this.counter = 0
+    componentDidMount() {
+        let { productId } = this.props.router.params
 
-        this.description = {
-            id: this.counter++,
-            src: [
-                'https://images-na.ssl-images-amazon.com/images/I/510VSJ9mWDL._SL1262_.jpg',
-                'https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-doi-inthanon-national-park-thailand-36703721.jpg',
-                'https://images-na.ssl-images-amazon.com/images/I/51iPoFwQT3L._SL1230_.jpg',
-                'https://images-na.ssl-images-amazon.com/images/I/61qbqFcvoNL._SL1500_.jpg',
-                'https://images-na.ssl-images-amazon.com/images/I/51HCjA3rqYL._SL1230_.jpg'
-            ],
-            title: "Apollo Running Shirt",
-            price: 45,
-            description: "Find stunning women's cocktail dresses and party dresses. Stand out in lace" +
-                "and metallic cocktail dresses and party dresses from all your favorite brands."
-        }
+        fetchProducById(productId).then((value) => {
+            console.log({ productId, value: value.product })
+            this.setState({ description: value.product })
+        })
+        /* 
+        attributes: Array(2) [ 
+            {name: 'Color', items: Array(5)}
+            {name: "Capacity", }]
+        brand: "Microsoft"
+        category: "tech"
+        description: "...." 
+        gallery: []
+        inStock: false
+        name
+        prices: {anount, currency: label, symbol}
+        */
     }
 
     render() {
-        let { productId } = this.props.router.params
-        
-        let stringArray = this.description.title.split(" ")
-
-        let [first, ...remaining] = stringArray
-
-        remaining = remaining.join(" ")
-
         return (
-            <main>
-                <Description>
-                    <ProductPreview  images={this.description.src}/>
-                    <ProductDescription description={{...this.description, first, remaining}}  key={this.description.id}/>
-                </Description>
-            </main>
-        );
+            <>
+                {
+                    this.state.description ?
+                        <main>
+                            <Description>
+                                <ProductPreview images={this.state.description.gallery} />
+                                <ProductDescription description={{ ...this.state.description }}  />
+                            </Description>
+                        </main>
+                    :
+                    <main>Loading</main>
+                }
+            </>
+        )
     }
 }
 
-export default withRouterHOC(DescriptionPage);
+export default withRouterHOC(DescriptionPage)

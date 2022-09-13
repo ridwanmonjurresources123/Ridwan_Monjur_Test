@@ -1,1 +1,2 @@
 yarn add react-router-dom @reduxjs/toolkit @apollo/client graphql styled-components
+yarn add reduxjs-toolkit-persist react-apollo

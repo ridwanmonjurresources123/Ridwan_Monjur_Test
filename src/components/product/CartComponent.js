@@ -1,29 +1,33 @@
-import { Component } from 'react';
-import { CartItem, Product } from './styles';
+import { Component } from 'react'
+import { CartItem, Product } from './styles'
 
 
 class CartComponent extends Component {
     constructor() {
         super()
 
-        console.log(this.props)
     }
 
     render() {
 
         let {cart, isOverlay} = this.props
 
-        console.log({cart, isOverlay})
+
+        let stringArray = cart.title.split(" ")
+
+        let [first, ...remaining] = stringArray
+
+        remaining = remaining.join(" ")
 
         return (
 
             <CartItem isOverlay={isOverlay}>
                 <div>
                     <Product.Brand>
-                        {cart.first}
+                        {first}
                     </Product.Brand>
                     <Product.Title>
-                        {cart.remaining}
+                        {remaining}
                     </Product.Title>
                     <Product.Price>
                         ${cart.price}
@@ -56,8 +60,8 @@ class CartComponent extends Component {
                 </div>
             </CartItem>
 
-        );
+        )
     }
 }
 
-export default CartComponent;
+export default CartComponent

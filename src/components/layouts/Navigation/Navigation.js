@@ -1,13 +1,14 @@
-import { Component, createRef } from 'react';
-import { Link } from 'react-router-dom';
-import { Nav, Dropdown } from './styles';
+import { Component, createRef } from 'react'
+import { Link } from 'react-router-dom'
+import { Nav, Dropdown } from './styles'
 
 import CompanyLogo from '../../../images/company.png'
-import CartComponent from '../../product/CartComponent';
+import CartComponent from '../../product/CartComponent'
+import { connect } from 'react-redux'
+import { withRouterHOC } from '../../../utils/withRouterHOC'
 
 class Navigation extends Component {
     state = {
-        active: true,
         dropDownClose: [true, true]
     }
 
@@ -22,15 +23,10 @@ class Navigation extends Component {
 
             if (sibling) sibling.style.opacity = opacity
 
-            console.log({ sibling })
         }
     }
 
     toggleDropDownState(index) {
-        console.log({ index, state: this.state })
-
-        console.log({ ref: this.myRef.current })
-
         this.setState(prevState => {
             let newDropDownClose = Array(2).fill(true)
 
@@ -38,19 +34,13 @@ class Navigation extends Component {
 
             let currentStyle = this.myRef.current.style
 
-
             if ((newDropDownClose[0] === false)) {
-
                 this.changeOpacity(0.3)
 
                 currentStyle.zIndex = "999"
-
             }
-
             else {
-
                 this.changeOpacity(1)
-
             }
 
             return {
@@ -65,77 +55,83 @@ class Navigation extends Component {
     constructor() {
         super()
 
-        this.myRef = createRef();
+        this.myRef = createRef()
 
         this.toggleDropDownState = this.toggleDropDownState.bind(this)
 
         this.changeOpacity = this.changeOpacity.bind(this)
 
-        // delete this
-        this.productArray = Array(5).fill({
-            id: this.counter++,
-            src: "https://cdn.shopify.com/s/files/1/0071/6665/6579/products/RunningT-shirtIMG_0762_720x.png?v=1600684690",
-            title: "Apollo Running Shirt",
-            price: 45
-        })
     }
 
     render() {
         // delete this
+        console.log({ Navigation: this.props })
 
         return (
             <Nav ref={this.myRef} id='nav'>
-                <div >
-                    <Nav.Link active={this.active} >
-                        <Link to='category/women'>
-                            Women
-                        </Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                        <Link to='category/men'>
-                            Men
-                        </Link>
-                    </Nav.Link>
-                    <Nav.Link>
-                        <Link to='category/kids'>
-                            Kids
-                        </Link>
-                    </Nav.Link>
+                <div>
+                    {
+                        this.props.categories &&
+                        this.props.categories.map((value) => {
+                            return (
+                                <Nav.Link active={value !== this.props.router.params} >
+                                    <Link to={`category/${value.name}`}>
+                                        {value.name}
+                                    </Link>
+                                </Nav.Link>
+                            )
+                        })
+
+                    }
                 </div>
                 <div>
                     <Nav.Icon src={CompanyLogo} />
                 </div>
                 <div>
                     <Dropdown>
-                        <Dropdown.Button onClick={() => this.toggleDropDownState(0)}>This is menu 1</Dropdown.Button>
-                        <Dropdown.Items isInvisible={this.state.dropDownClose[0]}>
+                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState(0)}>Cart</Dropdown.MenuButton>
+                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose[0]}>
                             {
-                                this.productArray && this.productArray.map((value) => {
-                                    let stringArray = value.title.split(" ")
-
-                                    let [first, ...remaining] = stringArray
-
-                                    remaining = remaining.join(" ")
-
+                                this.props.cart && this.props.cart.map((value) => {
                                     return (
-                                        <CartComponent cart={{ ...value, first, remaining }} isOverlay= {true} key={value.id} />
+                                        <CartComponent cart={{ ...value }} isOverlay={true} key={value.id} />
                                     )
                                 })
                             }
-                        </Dropdown.Items>
+                        </Dropdown.ItemContainer>
                     </Dropdown>
 
                     <Dropdown>
-                        <Dropdown.Button onClick={() => this.toggleDropDownState(1)}>This is menu 2</Dropdown.Button>
-                        <Dropdown.Items isInvisible={this.state.dropDownClose[1]}>
-                            <p>This is child 1 of parent 2</p>
-                            <p>This is child 2 of parent 2</p>
-                        </Dropdown.Items>
+                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState(1)}>This is menu 2</Dropdown.MenuButton>
+
+                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose[1]}>
+                            {
+                                this.props.currencies && this.props.currencies.map((value) => {
+                                    return (
+                                        <Dropdown.ItemDiv> {value.symbol} {value.label} </Dropdown.ItemDiv>
+                                    )
+                                })
+                            }
+
+                        </Dropdown.ItemContainer>
                     </Dropdown>
                 </div>
             </Nav>
-        );
+        )
     }
 }
 
-export default Navigation;
+
+function mapStateToProps(state) {
+    return {
+        currencies: state.productReducer.currencies,
+        categories: state.productReducer.categories,
+        cart: state.cartReducer.cart
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(withRouterHOC(Navigation))
+
+

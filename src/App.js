@@ -1,10 +1,13 @@
-import './App.css';
-import { ThemeProvider } from 'styled-components';
-import GlobalStyles from './components/global';
-import Loading from './components/notification/loading';
-import Navigation from './components/layouts/Navigation/Navigation';
-import RoutesApp from './routes';
-import Footer from './components/layouts/Footer/Footer';
+import './App.css'
+import { ThemeProvider } from 'styled-components'
+import GlobalStyles from './components/global'
+import Loading from './components/notification/loading'
+import Navigation from './components/layouts/Navigation/Navigation'
+import RoutesApp from './routes'
+import Footer from './components/layouts/Footer/Footer'
+import { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchAllCurrenciesAndCategoriesAction } from './redux/products/products-action'
 
 const theme = {
   colors: {
@@ -18,18 +21,32 @@ const theme = {
   mobile: '768px',
 }
 
-function App() {
+class App extends Component {
+  componentDidMount() {
+    this.props.dispatchFetchAllCurrenciesAndCategories()
+    }
 
-
-  return (
-
-    <ThemeProvider theme={theme}>
+  render() {
+    return (
+      <ThemeProvider theme={theme}>
         <GlobalStyles />
         <Navigation />
         <RoutesApp />
         <Footer />
-    </ThemeProvider>
-  );
+      </ThemeProvider>
+    )
+  }
 }
 
-export default App;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatchFetchAllCurrenciesAndCategories : () => dispatch(fetchAllCurrenciesAndCategoriesAction())
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App)
+

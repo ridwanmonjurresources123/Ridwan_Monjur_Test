@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import { Description } from './styles';
+import { Component } from 'react'
+import { Description } from './styles'
 
 
 class ProductPreview extends Component {
@@ -10,7 +10,6 @@ class ProductPreview extends Component {
     constructor() {
         super()
 
-        console.log({ props: this.props })
 
         this.changeCurrentImage = this.changeCurrentImage.bind(this)
     }
@@ -22,7 +21,6 @@ class ProductPreview extends Component {
     }
 
     render() {
-        console.log(this.props)
 
         let { images } = this.props
 
@@ -42,8 +40,8 @@ class ProductPreview extends Component {
                     }
                 </Description.Preview>
             </>
-        );
+        )
     }
 }
 
-export default ProductPreview;
+export default ProductPreview
