@@ -10,8 +10,8 @@ class ListingPage extends Component {
         loading: false,
         error: ""
     }
+    
     componentDidMount() {
-
         let { category } = this.props.router.params
 
         this.setState((prev)=>{
@@ -23,8 +23,6 @@ class ListingPage extends Component {
                 loading: false,
                 error: ""})
         })
-
-
     }
 
     render() {

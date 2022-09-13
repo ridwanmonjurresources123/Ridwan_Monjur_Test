@@ -5,6 +5,11 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  a{
+    text-decoration: none;
+    color: black;
+  }
+
   body {
     background: ${({ theme }) => theme.colors.body};
     color: hsl(192, 100%, 9%);

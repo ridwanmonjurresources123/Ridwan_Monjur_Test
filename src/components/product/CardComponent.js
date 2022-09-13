@@ -6,7 +6,12 @@ import { Card, Grid } from './styles'
 class CardComponent extends Component {
     constructor() {
         super()
+    }
 
+    generateLinkIfOutOfStock(inStock) {
+        return inStock ?
+            null
+            : { style: { pointerEvents: "none" } }
     }
 
     render() {
@@ -22,17 +27,24 @@ class CardComponent extends Component {
         prices: Array(5)
         */
         return (
-            <Card>
-                <Link to={`../product/${cardValue.id}`} replace>
-                    <Card.Image src={cardValue.gallery[0]} />
-                    <Card.Title>
-                        {cardValue.brand} {cardValue.name}
-                    </Card.Title>
-                    <Card.Subtitle>
-                        ${cardValue.prices[0].amount}
-                    </Card.Subtitle>
-                </Link>
-            </Card>
+            <>
+                <Card>
+                    <Link  {...this.generateLinkIfOutOfStock(cardValue.inStock)} to={`../product/${cardValue.id}`} replace>
+
+                        <Card.Image src={cardValue.gallery[0]} />
+                        <Card.Title>
+                            {cardValue.brand} {cardValue.name}
+                        </Card.Title>
+                        {cardValue.inStock ? <></> : <Card.OutOfStock>Out of Stock</Card.OutOfStock>}
+
+                        <Card.Subtitle inStock={cardValue.inStock}>
+                            ${cardValue.prices[0].amount}
+                        </Card.Subtitle>
+                    </Link>
+
+                </Card>
+
+            </>
         )
     }
 }

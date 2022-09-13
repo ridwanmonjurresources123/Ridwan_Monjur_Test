@@ -3,6 +3,9 @@ import styled from 'styled-components'
 let Card = styled.div`
   cursor: pointer;
   // text-align: center;
+  position: relative;
+  top: 0;
+  left: 0;
   margin: 0 auto;
   padding: 40px 0;
   & a {
@@ -24,7 +27,19 @@ Card.Title = styled.div`
 
 Card.Subtitle = styled.div`
 margin-top: 10px;
-font-weight: bolder;
+${({inStock})=> inStock && `
+  font-weight: bolder;
+`}
+`
+
+Card.OutOfStock = styled.div`
+  position: absolute;
+  color: grey;
+  top: 40%;
+  left: 20%;
+  text-transform: uppercase;
+  font-size: 30px;
+  text-decoration: none;
 `
 
 export default Card

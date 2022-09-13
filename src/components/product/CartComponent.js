@@ -13,21 +13,15 @@ class CartComponent extends Component {
         let {cart, isOverlay} = this.props
 
 
-        let stringArray = cart.title.split(" ")
-
-        let [first, ...remaining] = stringArray
-
-        remaining = remaining.join(" ")
-
         return (
 
             <CartItem isOverlay={isOverlay}>
                 <div>
                     <Product.Brand>
-                        {first}
+                        {cart.brand}
                     </Product.Brand>
                     <Product.Title>
-                        {remaining}
+                        {cart.name}
                     </Product.Title>
                     <Product.Price>
                         ${cart.price}
