@@ -8,17 +8,24 @@ import { Provider } from "react-redux"
 import { PersistGate } from "reduxjs-toolkit-persist/integration/react"
 import store, { persistor } from "./redux/store"
 import Loading from './components/notification/loading'
+import storage from "reduxjs-toolkit-persist/lib/storage"
 
+
+// clear store
+// persistor.flush().then(() => {
+//   return persistor.purge();
+// });
+
+// storage.removeItem('persist:root')
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-        <Provider store={store}>
-          {/* <PersistGate loading={Loading} persistor={persistor}> */}
-            <App />
-          {/* </PersistGate> */}
-        </Provider>
+    <BrowserRouter>                                                                                                                                                                                                                                 <Provider store={store}>
+      <PersistGate loading={<Loading />} persistor={persistor}>
+        <App />
+      </PersistGate>
+    </Provider>
     </BrowserRouter>
   </React.StrictMode >
 )

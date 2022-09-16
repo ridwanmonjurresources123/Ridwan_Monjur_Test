@@ -1,47 +1,112 @@
-import { Component } from 'react'
+import { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { addProductToCartAction } from '../../redux/cart/cart-action'
 import { CartItem, Description, Product } from './styles'
 
+const initialState = { attributes: {}, missingAttributes: [], quantity: 1 }
 
 class ProductDescription extends Component {
+    state = { ...initialState }
+
     constructor() {
         super()
+    }
+
+    addForm(attribute, { id, value }) {
+        this.setState((prev) => {
+            return { attributes: { ...prev.attributes, [attribute]: { id, value } } }
+        })
+    }
+
+    submitForm(event) {
+        event.preventDefault()
+
+        let currentAtttributes = Object.keys(this.state.attributes)
+
+        let missingAttributes = []
+
+        let isEmptyForm = currentAtttributes.length === 0
+
+        let isExistAllAttributes = true && !isEmptyForm
+
+        if (isEmptyForm)
+            missingAttributes = this.props.description.attributes.map((attribute) => attribute.name)
+
+        else {
+            this.props.description.attributes.forEach((attribute) => {
+
+                let isExist = currentAtttributes.includes(attribute.name)
+
+                if (!isExist) {
+                    missingAttributes.push(attribute.name)
+
+                    isExistAllAttributes = false
+                }
+            })
+        }
+        if (isExistAllAttributes) {
+            this.props.dispatchAddProductToCartAction({
+                ...this.props.description, selectedAttributes: { ...this.state.attributes }, quantity: this.state.quantity
+            })
+
+            this.setState({ ...initialState })
+        }
+
+        else this.setState((prev) => { return { ...prev, missingAttributes } })
     }
 
     render() {
 
         let { description, currentCurrency } = this.props
-
-        console.log({description, currentCurrency})
-
         return (
             <>
                 <Description.Text>
-                    <Product.Brand>
+                    <Product.Brand fontSize={"35px"}>
                         {description.brand}
                     </Product.Brand>
-                    <Product.Title>
+                    <Product.Title fontSize={"25px"}>
                         {description.name}
                     </Product.Title>
+                    <br />
 
-                    <Product.Subtitle>
-                        Size
-                    </Product.Subtitle>
-                    <div>
-                        <CartItem.Sizebox paddingX={"3px"} paddingY={"6px"}>L</CartItem.Sizebox>
-                        <CartItem.Sizebox paddingX={"3px"} paddingY={"6px"}>S</CartItem.Sizebox>
-                        <CartItem.Sizebox paddingX={"3px"} paddingY={"6px"} active={true}>M</CartItem.Sizebox>
-                    </div>
-
-
-                    <Product.Subtitle>
-                        Color
-                    </Product.Subtitle>
-                    <div>
-                        <CartItem.Colorbox backgroundColor="grey" />
-                        <CartItem.Colorbox backgroundColor="black" />
-                        <CartItem.Colorbox backgroundColor="green" />
-                    </div>
+                    {
+                        description.attributes.map((attribute, index) => {
+                            return (
+                                <Fragment key={`${attribute.name}${index}`}>
+                                    <Product.Subtitle>
+                                        {attribute.name}
+                                    </Product.Subtitle>
+                                    {
+                                        attribute.name.toLowerCase() !== 'color'
+                                            ?
+                                            attribute.items.map((attributeItem) => {
+                                                return (
+                                                    <CartItem.Sizebox
+                                                        onClick={() => this.addForm(attribute.name,
+                                                            { id: attributeItem.id, value: attributeItem.value })}
+                                                        key={attributeItem.id}
+                                                        active={attributeItem.id === this.state.attributes[attribute.name]?.id}
+                                                        paddingX={"3px"}
+                                                        paddingY={"6px"}>
+                                                        {attributeItem.displayValue}
+                                                    </CartItem.Sizebox>
+                                                )
+                                            })
+                                            :
+                                            attribute.items.map((attributeItem) => {
+                                                return (
+                                                    <CartItem.Colorbox
+                                                        active={attributeItem.id === this.state.attributes[attribute.name]?.id}
+                                                        onClick={() => this.addForm(attribute.name,
+                                                            { id: attributeItem.id, value: attributeItem.value })}
+                                                        key={attributeItem.id}
+                                                        backgroundColor={attributeItem.displayValue} />
+                                                )
+                                            })
+                                    }
+                                </Fragment>)
+                        })
+                    }
 
                     <Product.Subtitle>
                         Price
@@ -49,8 +114,17 @@ class ProductDescription extends Component {
                     <Product.Price>
                         {currentCurrency.symbol} {description.prices[currentCurrency.index].amount}
                     </Product.Price>
+                    {this.state.missingAttributes.length > 0
+                        && <Description.AddToCartError>You have not selected the following attributes:
+                            {this.state.missingAttributes.map((value, index) =>
+                                <Fragment key={`${index}${value}`}> {index + 1}. {value}
+                                </Fragment>)}
+                        </Description.AddToCartError>
+                    }
+                    <Description.AddToCart onClick={(event) => this.submitForm(event)}> Submit </Description.AddToCart>
 
                 </Description.Text>
+
             </>
         )
     }
@@ -64,6 +138,13 @@ function mapStateToProps(state) {
     }
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        dispatchAddProductToCartAction: (cart) => dispatch(addProductToCartAction(cart)),
+    }
+}
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(ProductDescription)

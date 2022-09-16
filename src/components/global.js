@@ -28,7 +28,16 @@ const GlobalStyles = createGlobalStyle`
 
   img {
     max-width: 100%;
-}
+  }
+
+  .active{
+    text-decoration: underline;
+    text-underline-offset: 10px; 
+    ${({  theme }) => `
+      color:  ${theme.colors.primary};
+      text-decoration-color: ${theme.colors.primary};
+  `}
+  }
 `
 
 export default GlobalStyles

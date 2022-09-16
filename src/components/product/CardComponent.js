@@ -18,7 +18,6 @@ class CardComponent extends Component {
 
         // No loop in this part, just expose component/ block made of elements!
         let { cardValue, currentCurrency } = this.props
-        console.log({currect: cardValue.prices[currentCurrency.index].amount})
         /* 
         brand: "Sony"
         gallery; (5) 

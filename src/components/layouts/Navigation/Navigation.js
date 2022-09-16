@@ -15,7 +15,7 @@ const initialState = {
 
 class Navigation extends Component {
     state = {
-        dropDownClose: {...initialState}
+        dropDownClose: { ...initialState }
     }
 
     changeOpacity(opacity) {
@@ -33,7 +33,7 @@ class Navigation extends Component {
 
     toggleDropDownState(key) {
         this.setState(prevState => {
-            let newDropDownClose = {...initialState}
+            let newDropDownClose = { ...initialState }
 
             newDropDownClose[key] = !prevState.dropDownClose[key]
 
@@ -46,7 +46,7 @@ class Navigation extends Component {
             }
             else {
                 this.changeOpacity(1)
-            
+
                 currentStyle.zIndex = "1"
 
             }
@@ -58,7 +58,7 @@ class Navigation extends Component {
         })
     }
 
-    changeCurrency(currentCurrency){
+    changeCurrency(currentCurrency) {
         this.props.dispatchChangeCurrencyAction(currentCurrency)
 
         this.toggleDropDownState('currencyDropdown')
@@ -82,10 +82,17 @@ class Navigation extends Component {
                 <div>
                     {
                         this.props.categories &&
-                        this.props.categories.map((value) => {
+                        this.props.categories.map((value, index) => {
+                            // this is: /category/ so slice
+                            // let firstUrlPart = this.props.router.location.pathname.slice(9)
+                            // let isActive = false
+                            console.log({props: this.props.router.params?.category, name: value.name})
+                            // /category/
                             return (
-                                <Nav.Link active={value !== this.props.router.params} >
-                                    <Link to={`category/${value.name}`}>
+                                <Nav.Link
+                                    active={this.props.router.params?.category == value.name}
+                                    key={`${index} ${value.name}`}>
+                                    <Link to={`../category/${value.name}`} replace>
                                         {value.name}
                                     </Link>
                                 </Nav.Link>
@@ -100,15 +107,14 @@ class Navigation extends Component {
                 <div>
                     <Dropdown>
                         <Dropdown.MenuButton onClick={() => this.toggleDropDownState('cartDropdown')}>
-                            <DropdownIcon>$
-                                <DropdownIcon.Arrow>⌄</DropdownIcon.Arrow>
+                            <DropdownIcon>🛒
                             </DropdownIcon>
                         </Dropdown.MenuButton>
                         <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['cartDropdown']}>
                             {
-                                this.props.cart && this.props.cart.map((value) => {
+                                this.props.cart && this.props.cart.map((value, cartIndex) => {
                                     return (
-                                        <CartComponent cart={{ ...value }} isOverlay={true} key={value.id} />
+                                        <CartComponent cart={{ ...value }} cartIndex={cartIndex} isOverlay={true} key={`${value.name}${cartIndex}`} />
                                     )
                                 })
                             }
@@ -116,15 +122,16 @@ class Navigation extends Component {
                     </Dropdown>
                     <Dropdown>
                         <Dropdown.MenuButton onClick={() => this.toggleDropDownState('currencyDropdown')}>
-                            <DropdownIcon>🛒</DropdownIcon>
+                            <DropdownIcon>$
+                                <DropdownIcon.Arrow>⌄</DropdownIcon.Arrow></DropdownIcon>
                         </Dropdown.MenuButton>
                         <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['currencyDropdown']}>
                             {
                                 this.props.currencies && this.props.currencies.map((value, index) => {
                                     return (
                                         <Dropdown.ItemDiv
-                                        onClick={ () => this.changeCurrency({...value, index}) }
-
+                                            onClick={() => this.changeCurrency({ ...value, index })}
+                                            key={`${value.symbol} ${value.label}`}
                                         >
                                             {value.symbol} {value.label}
                                         </Dropdown.ItemDiv>

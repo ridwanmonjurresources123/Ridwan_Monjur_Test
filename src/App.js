@@ -15,6 +15,7 @@ const theme = {
     body: '#fff',
     footer: '#003333',
     primary: '#54DA7D',
+    light: 'white',
     activeBg: 'rgb(217, 215, 215)',
     hoverBg: 'rgb(200, 200, 200, 0.3)',
   },
@@ -24,15 +25,13 @@ const theme = {
 class App extends Component {
   componentDidMount() {
     this.props.dispatchFetchAllCurrenciesAndCategories()
-    }
+  }
 
   render() {
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Navigation />
         <RoutesApp />
-        <Footer />
       </ThemeProvider>
     )
   }
@@ -41,7 +40,7 @@ class App extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchFetchAllCurrenciesAndCategories : () => dispatch(fetchAllCurrenciesAndCategoriesAction())
+    dispatchFetchAllCurrenciesAndCategories: () => dispatch(fetchAllCurrenciesAndCategoriesAction())
   }
 }
 

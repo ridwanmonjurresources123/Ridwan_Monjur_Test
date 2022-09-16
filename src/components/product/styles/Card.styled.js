@@ -27,8 +27,11 @@ Card.Title = styled.div`
 
 Card.Subtitle = styled.div`
 margin-top: 10px;
-${({inStock})=> inStock && `
+${({ inStock }) => inStock && `
   font-weight: bolder;
+`}
+${({ isOverlay }) => isOverlay && `
+  font-weight: lighter;
 `}
 `
 

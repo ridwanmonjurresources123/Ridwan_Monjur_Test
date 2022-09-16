@@ -12,12 +12,31 @@ let CartItem = styled.div`
         border-top: 0px solid rgb(217, 215, 215);
         gap: 50px;
         width: 300px;
-
     `}}
-   
 `
 
-CartItem.Sizebox = styled.span`
+CartItem.Colorbox = styled.label`
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    margin-right: 5px;
+    border: 1px solid black;
+    background-color: ${({ backgroundColor }) => `${backgroundColor}`};
+    ${({ active }) => active && `
+        padding: 12px;
+    ` }
+    ${({ overlay }) => overlay && `
+        font-size: 8px;
+        margin-bottom: 0px;
+        font-weight: lighter;
+    ` }
+    &:hover{
+        outline: 1px solid ${({ theme }) => `${theme.colors.primary}`};
+        padding: 9px;
+    }
+`
+
+CartItem.Sizebox = styled.label`
     cursor: pointer;
     display: inline-block;
     padding: ${({ paddingX, paddingY }) =>
@@ -30,8 +49,10 @@ CartItem.Sizebox = styled.span`
     ` }
     border: 1px solid black;
     ${({ active }) => active && `
-    background-color: black;
-    color: white;
+        background-color: black;
+        color: white;
+        font-weight: lighter;
+        margin-bottom: 0px;
     ` }
     &:hover{
         background-color:  ${({ theme }) => `${theme.colors.hoverBg}`};
@@ -54,7 +75,6 @@ CartItem.QuantitySizebox = styled.div`
             height: 80%;
         `
     }
- 
 `
 
 CartItem.Preview = styled.img`
@@ -66,23 +86,10 @@ CartItem.Preview = styled.img`
             max-width: 100px;
             max-height: 100px;
             margin-bottom: 0;
-
         `
     }
-
 `
 
-CartItem.Colorbox = styled.div`
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px;
-    margin-right: 5px;
-    border: 1px solid black;
-    background-color: ${({ backgroundColor }) => `${backgroundColor}`};
-    &:hover{
-        background-color:  ${({ theme }) => `${theme.colors.hoverBg}`};
-        padding: 9px;
-    }
-`
+
 
 export default CartItem

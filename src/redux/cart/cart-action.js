@@ -8,4 +8,8 @@ export const incrementValueToCartAction = createAction("cart/incrementValueToCar
 
 export const decrementValueToCartAction = createAction("cart/decrementValueToCart")
 
+export const editCartAttributeAction = createAction("cart/editCartAttribute")
+
+
+
 

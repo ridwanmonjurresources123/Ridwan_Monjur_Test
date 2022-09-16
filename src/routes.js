@@ -9,8 +9,11 @@ function RoutesApp() {
             <Route path="/">
                 <Route index element={<Navigate to='category/tech' />} />
                 <Route path="category" element={<ListingPage />} />
-                <Route path="category/:category" element={<ListingPage />} />
-                <Route path="product/:productId" element={<DescriptionPage />}/>
+                <Route
+                    path="category/:category"
+                    element={<ListingPage  />}
+                />
+                <Route path="product/:productId" element={<DescriptionPage />} />
                 <Route path="cart" element={<CartPage />} />
                 {/* <Route path="*" element={<ListingPage />}/> */}
             </Route>

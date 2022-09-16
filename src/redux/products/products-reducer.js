@@ -12,9 +12,13 @@ export const productState = {
 
 const currencyReducer = createReducer(productState, (builder) => {
   builder.addCase(changeCurrencyAction, (state, { payload }) => {
+    let {index, symbol, label} = payload
+
     return {
       ...state,
-      currentCurrency: payload
+      currentCurrency: {
+        index, symbol, label
+      }
     }
   })
 
@@ -22,8 +26,8 @@ const currencyReducer = createReducer(productState, (builder) => {
     return {
       ...state,
       loading: false,
-      currencies: payload.currencies,
-      categories: payload.categories
+      currencies: [...payload.currencies],
+      categories: [...payload.categories]
     }
   })
 

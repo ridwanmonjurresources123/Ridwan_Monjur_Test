@@ -4,6 +4,9 @@ import ProductDescription from '../../components/product/ProductDescription'
 import { Description } from '../../components/product/styles'
 import { withRouterHOC } from '../../utils/withRouterHOC'
 import { fetchProducById } from '../../services/gqlApi'
+import Navigation from '../../components/layouts/Navigation/Navigation'
+import CartComponent from '../../components/product/CartComponent'
+import Footer from '../../components/layouts/Footer/Footer'
 
 class DescriptionPage extends Component {
     state = {
@@ -14,7 +17,7 @@ class DescriptionPage extends Component {
         let { productId } = this.props.router.params
 
         fetchProducById(productId).then((value) => {
-            console.log({ productId, value: value.product })
+
             this.setState({ description: value.product })
         })
         /* 
@@ -34,6 +37,7 @@ class DescriptionPage extends Component {
     render() {
         return (
             <>
+                <Navigation/>
                 {
                     this.state.description ?
                         <main>
@@ -45,6 +49,7 @@ class DescriptionPage extends Component {
                     :
                     <main>Loading</main>
                 }
+                <Footer/>
             </>
         )
     }
