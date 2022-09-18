@@ -6,13 +6,13 @@ let CartItem = styled.div`
     justify-content: space-between;
     padding-top: 10px;
     padding-left: 10px;
-    padding-bottom: 0px;
-    ${({ isOverlay }) => isOverlay && `
-        font-size: 15px;
-        border-top: 0px solid rgb(217, 215, 215);
-        gap: 50px;
-        width: 300px;
-    `}}
+    padding-bottom: 20px;
+`
+
+CartItem.ItemContainer = styled.div`
+   height: 100vh;
+   overflow-y: auto; 
+   overflow-x: visible;
 `
 
 CartItem.Colorbox = styled.label`
@@ -24,11 +24,6 @@ CartItem.Colorbox = styled.label`
     background-color: ${({ backgroundColor }) => `${backgroundColor}`};
     ${({ active }) => active && `
         padding: 12px;
-    ` }
-    ${({ overlay }) => overlay && `
-        font-size: 8px;
-        margin-bottom: 0px;
-        font-weight: lighter;
     ` }
     &:hover{
         outline: 1px solid ${({ theme }) => `${theme.colors.primary}`};
@@ -44,9 +39,6 @@ CartItem.Sizebox = styled.label`
     font-size: small;
     margin-bottom: 20px;
     margin-right: 5px;
-    ${({ isOverlay }) => isOverlay && `
-        margin-bottom: 0px;
-    ` }
     border: 1px solid black;
     ${({ active }) => active && `
         background-color: black;
@@ -65,31 +57,54 @@ CartItem.QuantitySizebox = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    ${({ isOverlay }) =>
-        isOverlay && `
-            max-width: 50px;
-            height: 60px !important;
-        `
-        ||
-        !isOverlay && `
-            height: 80%;
-        `
-    }
+    height: 80%;
 `
 
-CartItem.Preview = styled.img`
-    max-width: 350px;
+
+CartItem.PreviewTabContainer = styled.div`
+    height: min-content;
+    max-height: 350px;
+    background-color: 1px solid red;
+    position: relative;
+`
+
+CartItem.PreviewTabController = styled.div`
+   cursor: pointer;
+   display: inline-block;
+   position: absolute;
+   width: 20px;
+   text-align: center;
+   background-color: black;
+   color: white;
+   bottom: 10px;
+   z-index: 999;
+`
+
+CartItem.PreviewTabControllerLeft = styled(CartItem.PreviewTabController)`
+   left: 75%;
+`
+
+CartItem.PreviewTabControllerRight = styled(CartItem.PreviewTabController)`
+   right: 1%;
+`
+
+CartItem.PreviewImg = styled.img`
+    max-width: 250px;
+    width: 350px;
     max-height: 350px;
     margin-bottom: 10px;
-    ${({ isOverlay }) =>
-        isOverlay && `
-            max-width: 100px;
-            max-height: 100px;
-            margin-bottom: 0;
-        `
-    }
 `
 
-
+CartItem.Warning = styled.div`
+    position: fixed;
+    left: 30%;
+    padding: 10px;
+    top: 50vh;
+    background-color: black;
+    color: white;
+    ${({hidden})=>hidden &&
+        `display: none;`
+    }
+`
 
 export default CartItem

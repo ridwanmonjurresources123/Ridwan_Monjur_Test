@@ -1,13 +1,15 @@
-import { Component, createRef } from 'react'
+import { Component, createRef, Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { Nav, Dropdown } from './styles'
-
 import CompanyLogo from '../../../images/company.png'
-import CartComponent from '../../product/CartComponent'
+import OverlayCartComponent from '../../product/OverlayCartItem'
 import { connect } from 'react-redux'
 import { withRouterHOC } from '../../../utils/withRouterHOC'
 import DropdownIcon from './styles/DropdownIcon.styled'
 import { changeCurrencyAction } from '../../../redux/products/products-action'
+import { OverlayCartItem } from '../../product/styles'
+import { nanoid } from '@reduxjs/toolkit'
+import { roundOffTwoDP } from '../../../redux/cart/cart-utils'
 
 const initialState = {
     cartDropdown: true, currencyDropdown: true
@@ -74,8 +76,13 @@ class Navigation extends Component {
         this.changeOpacity = this.changeOpacity.bind(this)
     }
 
+    routerDirectToCartPage() {
+        this.props.router.navigate("../cart")
+    }
+
     render() {
         // delete this
+        let { router } = this.props
 
         return (
             <Nav ref={this.myRef} id='nav'>
@@ -83,11 +90,6 @@ class Navigation extends Component {
                     {
                         this.props.categories &&
                         this.props.categories.map((value, index) => {
-                            // this is: /category/ so slice
-                            // let firstUrlPart = this.props.router.location.pathname.slice(9)
-                            // let isActive = false
-                            console.log({props: this.props.router.params?.category, name: value.name})
-                            // /category/
                             return (
                                 <Nav.Link
                                     active={this.props.router.params?.category == value.name}
@@ -106,21 +108,6 @@ class Navigation extends Component {
                 </div>
                 <div>
                     <Dropdown>
-                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState('cartDropdown')}>
-                            <DropdownIcon>🛒
-                            </DropdownIcon>
-                        </Dropdown.MenuButton>
-                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['cartDropdown']}>
-                            {
-                                this.props.cart && this.props.cart.map((value, cartIndex) => {
-                                    return (
-                                        <CartComponent cart={{ ...value }} cartIndex={cartIndex} isOverlay={true} key={`${value.name}${cartIndex}`} />
-                                    )
-                                })
-                            }
-                        </Dropdown.ItemContainer>
-                    </Dropdown>
-                    <Dropdown>
                         <Dropdown.MenuButton onClick={() => this.toggleDropDownState('currencyDropdown')}>
                             <DropdownIcon>$
                                 <DropdownIcon.Arrow>⌄</DropdownIcon.Arrow></DropdownIcon>
@@ -131,18 +118,63 @@ class Navigation extends Component {
                                     return (
                                         <Dropdown.ItemDiv
                                             onClick={() => this.changeCurrency({ ...value, index })}
-                                            key={`${value.symbol} ${value.label}`}
+                                            key={`${nanoid()}`
+                                            }
                                         >
-                                            {value.symbol} {value.label}
+                                            <span> {value.symbol} {value.label} </span>
                                         </Dropdown.ItemDiv>
                                     )
-                                })
-                            }
-
+                                })}
+                        </Dropdown.ItemContainer>
+                    </Dropdown>
+                    <Dropdown>
+                        <Dropdown.MenuButton onClick={() => this.toggleDropDownState('cartDropdown')}>
+                            <DropdownIcon>
+                                🛒
+                                <DropdownIcon.Badge>
+                                    {this.props.totalQuantity}
+                                </DropdownIcon.Badge>
+                            </DropdownIcon>
+                        </Dropdown.MenuButton>
+                        <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['cartDropdown']}>
+                            <OverlayCartItem.Container>
+                                <OverlayCartItem.Heading>My bag</OverlayCartItem.Heading>
+                                {
+                                    this.props.cart && this.props.cart.map((value, cartIndex) => {
+                                        return (
+                                            <Fragment key={`${nanoid()}`}>
+                                                <OverlayCartComponent cart={{ ...value }} cartIndex={cartIndex} />
+                                            </Fragment>
+                                        )
+                                    })
+                                }
+                                <div style={{ margin: "5px", display: "flex", justifyContent: "space-around" }}>
+                                    {!this.props.totalQuantity ?
+                                        <h3>No items to display! </h3>
+                                        :
+                                        <>
+                                            <span>Total: </span>
+                                            <span>
+                                                {roundOffTwoDP(
+                                                    Number(this.props.total[this.props.currentCurrency]) + Number(this.props.total[this.props.currentCurrency]) * this.props.tax)
+                                                }
+                                            </span>
+                                        </>
+                                    }
+                                </div>
+                                <OverlayCartItem.ButtonContainer>
+                                    <OverlayCartItem.ButtonViewCart onClick={() => this.routerDirectToCartPage()}>
+                                        View bag
+                                    </OverlayCartItem.ButtonViewCart>
+                                    <OverlayCartItem.ButtonCheckoutCart>
+                                        Check out
+                                    </OverlayCartItem.ButtonCheckoutCart>
+                                </OverlayCartItem.ButtonContainer>
+                            </OverlayCartItem.Container>
                         </Dropdown.ItemContainer>
                     </Dropdown>
                 </div>
-            </Nav>
+            </Nav >
         )
     }
 }
@@ -152,7 +184,11 @@ function mapStateToProps(state) {
     return {
         currencies: state.productReducer.currencies,
         categories: state.productReducer.categories,
-        cart: state.cartReducer.cart
+        cart: state.cartReducer.cart,
+        totalQuantity: state.cartReducer.totalQuantity,
+        total: state.cartReducer.total,
+        tax: state.cartReducer.tax,
+        currentCurrency: state.productReducer.currentCurrency.index
     }
 }
 

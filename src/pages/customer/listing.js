@@ -5,7 +5,7 @@ import { fetchAllProductsByCategory } from '../../services/gqlApi'
 import { withRouterHOC } from '../../utils/withRouterHOC'
 import Navigation from '../../components/layouts/Navigation/Navigation'
 import CartComponent from '../../components/product/CartComponent'
-import Footer from '../../components/layouts/Footer/Footer'
+import Footer from '../../components/layouts/Footer'
 
 class ListingPage extends Component {
     state = {
@@ -59,7 +59,7 @@ class ListingPage extends Component {
                     <GridCart>
                         {
                             this.state.items && this.state.items.map((value) =>
-                                <CardComponent cardValue={value} key={`${value.id}${this.props.router.params?.category}`} />
+                                <CardComponent cardValue={value} key={`${value.name}${this.props.router.params?.category}`} />
                             )
                         }
                     </GridCart>

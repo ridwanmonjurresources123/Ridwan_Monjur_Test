@@ -20,7 +20,7 @@ Product.Price = styled.div`
     font-weight: bolder;
     ${({ fontSize }) => fontSize && `
         font-size: ${fontSize};
-`}
+    `}
 `
 Product.PriceFirsLetters = styled(Product.Price)`
     vertical-align: 3px;

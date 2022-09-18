@@ -6,7 +6,7 @@ import { withRouterHOC } from '../../utils/withRouterHOC'
 import { fetchProducById } from '../../services/gqlApi'
 import Navigation from '../../components/layouts/Navigation/Navigation'
 import CartComponent from '../../components/product/CartComponent'
-import Footer from '../../components/layouts/Footer/Footer'
+import Footer from '../../components/layouts/Footer'
 
 class DescriptionPage extends Component {
     state = {

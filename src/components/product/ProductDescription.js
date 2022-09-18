@@ -25,7 +25,7 @@ class ProductDescription extends Component {
 
         let missingAttributes = []
 
-        let isEmptyForm = currentAtttributes.length === 0
+        let isEmptyForm = currentAtttributes.length === 0 && this.props.description.attributes.length !== 0
 
         let isExistAllAttributes = true && !isEmptyForm
 
@@ -58,6 +58,7 @@ class ProductDescription extends Component {
     render() {
 
         let { description, currentCurrency } = this.props
+        
         return (
             <>
                 <Description.Text>

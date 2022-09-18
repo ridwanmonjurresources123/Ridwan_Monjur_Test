@@ -11,12 +11,10 @@ import Loading from './components/notification/loading'
 import storage from "reduxjs-toolkit-persist/lib/storage"
 
 
-// clear store
-// persistor.flush().then(() => {
-//   return persistor.purge();
-// });
+persistor.flush().then(() => {
+  return persistor.purge();
+});
 
-// storage.removeItem('persist:root')
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
