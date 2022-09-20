@@ -5,7 +5,7 @@ import { editCartAttributeAction, incrementValueToCartAction } from '../../redux
 import CartImagePreviewTab from './CartImagePreviewTab'
 
 class CartItemComponent extends Component {
-        editForm({ attribute, index, id, value }) {
+    editForm({ attribute, index, id, value }) {
         this.props.dispatchAddProductToCartAction({ attribute, index, id, value })
     }
 
@@ -55,7 +55,7 @@ class CartItemComponent extends Component {
                                             attribute.items.map((attributeItem) => {
                                                 return (
                                                     <CartItem.Colorbox
-                                                        active={attributeItem.id === attribute.selectedAttributes[attribute.name]?.id}
+                                                        active={attributeItem.id === cart.selectedAttributes[attribute.name]?.id}
                                                         onClick={() => this.editForm({
                                                             attribute: attribute.name,
                                                             index: cartIndex, id: attributeItem.id, value: attributeItem.value
