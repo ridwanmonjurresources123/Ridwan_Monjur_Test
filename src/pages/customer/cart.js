@@ -15,7 +15,7 @@ class CartPage extends Component {
                     <CartList />
                     {
                         this.props.totalQuantity!==0 && 
-                        <div style={{ margin: "0 20px", fontSize: "15px" }}>
+                        <div style={{ margin: "0 20px", fontSize: "18px" }}>
                             <p>Tax 21%: &nbsp; {roundOffTwoDP(Number(this.props.total[this.props.currentCurrency]) * this.props.tax)}</p>
                             <p>Quantity: &nbsp;{this.props.totalQuantity}</p>
                             <p>Total: &nbsp;

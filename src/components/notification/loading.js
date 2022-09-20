@@ -1,12 +1,13 @@
 import { Component } from 'react';
 import styled from 'styled-components';
-import Logo from '../../logo.svg';
+import Logo from '../../images/company.png';
+import {NotificationContainer, NotificationMessage} from './Container.styled';
 
 const LoadingSpinnerImg = styled.img`
-    
-    height: 20vmin;
+    height: 50px;
     pointer-events: none;
-  
+    background-color: red;
+    cursor: pointer;
     @media (prefers-reduced-motion: no-preference) {
         animation: App-logo-spin infinite 5s linear;
     }
@@ -23,13 +24,19 @@ const LoadingSpinnerImg = styled.img`
             transform: rotate(360deg);
         }
     }
-  
-`;
+`
 
 
 class Loading extends Component {
     render() {
-        return <LoadingSpinnerImg src={Logo} className="App-logo" alt="logo" />;
+        return (
+            <NotificationContainer>
+                <div>
+                    <LoadingSpinnerImg src={Logo} className="App-logo" alt="logo" />
+                    <NotificationMessage>Loading...</NotificationMessage>
+                </div>
+            </NotificationContainer>
+        )
     }
 }
 

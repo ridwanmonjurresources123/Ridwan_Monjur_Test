@@ -1,6 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit'
 import { Component } from 'react'
 import { connect } from 'react-redux'
+import EmptyNotification from '../notification/empty'
 import CartItem from './CartItem'
 
 class CartPage extends Component {
@@ -9,15 +10,14 @@ class CartPage extends Component {
         return (
             <>
                 {
-                    this.props.cart?.length > 0 ? this.props.cart.map((value, cartIndex) => {
-                        return (
-                            <CartItem cart={{ ...value }} cartIndex={cartIndex} key={nanoid()} />
-                        )
-                    })
+                    this.props.cart[0] ?
+                        this.props.cart.map((value, cartIndex) => {
+                            return (
+                                <CartItem cart={{ ...value }} cartIndex={cartIndex} key={nanoid()} />
+                            )
+                        })
                         :
-                        <div>
-                            List is empty
-                        </div>
+                        <EmptyNotification message="The cart is empty..."/>
                 }
             </>
         )

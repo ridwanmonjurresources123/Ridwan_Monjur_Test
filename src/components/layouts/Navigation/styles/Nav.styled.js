@@ -17,19 +17,22 @@ Nav.Icon = styled.img`
 `
 
 Nav.Link = styled.span`
-  display: inline-block;
-  padding: 5px 10px 0px 0px;
+  display: inline;
+  padding: 5px 60px 60px 0px;
   text-transform: uppercase;
-
+  margin-right: 10px;
   & > a {
     color: black;
     text-decoration: none;
-
     ${({ active, theme }) => active && `
-      text-decoration: underline;
+      box-sizing: border-box;
       color:  ${theme.colors.primary};
-      text-decoration-color: ${theme.colors.primary};
-      text-underline-offset: 10px; 
+      border-bottom: 1px solid ${theme.colors.primary};
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      // text-decoration: underline;
+      // text-decoration-color: ${theme.colors.primary};
+      // text-underline-offset: 10px; 
   `}
   }
 `

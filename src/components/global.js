@@ -5,6 +5,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  main{
+    min-height: 70vh;
+  }
+
   a{
     text-decoration: none;
     color: black;

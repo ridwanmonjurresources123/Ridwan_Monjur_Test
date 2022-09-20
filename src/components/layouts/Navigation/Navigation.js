@@ -94,7 +94,7 @@ class Navigation extends Component {
                         this.props.categories.map((value, index) => {
                             return (
                                 <Nav.Link
-                                    active={this.props.router.params?.category === value.name}
+                                    active={this.props.router.params?.category === value.name || this.props.currentCategory === value.name}
                                     key={`${index} ${value.name}`}>
                                     <Link to={`../category/${value.name}`} replace>
                                         {value.name}

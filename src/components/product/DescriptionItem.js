@@ -2,6 +2,7 @@ import { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { addProductToCartAction } from '../../redux/cart/cart-action'
 import { CartItem, Description, Product } from './styles'
+import parse from 'html-react-parser';
 
 const initialState = { attributes: {}, missingAttributes: [], quantity: 1 }
 
@@ -55,7 +56,7 @@ class ProductDescription extends Component {
     render() {
 
         let { description, currentCurrency } = this.props
-        
+
         return (
             <>
                 <Description.Text>
@@ -66,7 +67,6 @@ class ProductDescription extends Component {
                         {description.name}
                     </Product.Title>
                     <br />
-
                     {
                         description.attributes.map((attribute, index) => {
                             return (
@@ -102,16 +102,17 @@ class ProductDescription extends Component {
                                                 )
                                             })
                                     }
+                                    <br />
                                 </Fragment>)
                         })
                     }
-
                     <Product.Subtitle>
                         Price
                     </Product.Subtitle>
                     <Product.Price>
                         {currentCurrency.symbol} {description.prices[currentCurrency.index].amount}
                     </Product.Price>
+                    <br />
                     {this.state.missingAttributes.length > 0
                         && <Description.AddToCartError>You have not selected the following attributes:
                             {this.state.missingAttributes.map((value, index) =>
@@ -119,10 +120,12 @@ class ProductDescription extends Component {
                                 </Fragment>)}
                         </Description.AddToCartError>
                     }
-                    <Description.AddToCart onClick={(event) => this.submitForm(event)}> Submit </Description.AddToCart>
-
+                    <Description.AddToCart onClick={(event) => this.submitForm(event)}> ADD TO CART </Description.AddToCart>
+                    <br/>
+                    <span style={{fontSize: "medium", fontWeight: "600", paddingTop: "15px"}}>
+                        {parse(description.description)}
+                    </span>
                 </Description.Text>
-
             </>
         )
     }

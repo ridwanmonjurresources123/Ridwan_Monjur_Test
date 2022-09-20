@@ -6,6 +6,8 @@ import { withRouterHOC } from '../../utils/withRouterHOC'
 import { catchError, fetchProducById } from '../../services/gqlApi'
 import Navigation from '../../components/layouts/Navigation/Navigation'
 import Footer from '../../components/layouts/Footer'
+import ErrorNotification from '../../components/notification/error'
+import Loading from '../../components/notification/loading'
 
 class DescriptionPage extends Component {
     state = {
@@ -37,7 +39,7 @@ class DescriptionPage extends Component {
         console.log({ data: this.state })
         return (
             <>
-                <Navigation />
+                <Navigation currentCategory={this.state.data?.category}  />
                 <main>
                     {
                         this.state.data &&
@@ -49,13 +51,13 @@ class DescriptionPage extends Component {
                     {
                         this.state.isError &&
                         <>
-                            <div>Error</div>
+                            <div><ErrorNotification message="Could not fetch data..."/></div>
                         </>
                     }
                     {
                         this.state.isLoading &&
                         <>
-                            <div>loading</div>
+                            <div><Loading /></div>
                         </>
                     }
                 </main>

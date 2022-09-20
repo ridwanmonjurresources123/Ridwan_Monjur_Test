@@ -54,6 +54,8 @@ Description.AddToCart = styled.button`
     display: inline-block;
     cursor: pointer;
     padding: 15px;
+    width: 250px;
+    text-align: center;
     font-size: 15px;
     margin-right: 5px;
     margin-top: 10px;

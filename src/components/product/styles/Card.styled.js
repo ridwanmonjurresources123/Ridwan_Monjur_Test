@@ -1,10 +1,5 @@
 import styled from 'styled-components'
 
-let CardGrid = styled.div`
-    display: grid;
-    grid-template-areas: "overlaydemo";
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-`
 
 let Card = styled.div`
   cursor: pointer;

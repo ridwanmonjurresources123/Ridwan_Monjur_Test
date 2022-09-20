@@ -10,10 +10,9 @@ import store, { persistor } from "./redux/store"
 import Loading from './components/notification/loading'
 import storage from "reduxjs-toolkit-persist/lib/storage"
 
-
-persistor.flush().then(() => {
-  return persistor.purge();
-});
+// persistor.flush().then(() => {
+//   return persistor.purge();
+// });
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

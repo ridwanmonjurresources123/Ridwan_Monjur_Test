@@ -8,12 +8,12 @@ class CartImagePreviewTab extends Component {
 
     changeImage(changeState) {
         let index = this.state.currentImageIndex + changeState
-        
+
         let newChange = this.props.images[index]
-        
-        if (newChange!==undefined) this.setState({ currentImageIndex: index })
-        
-        else {}
+
+        if (newChange !== undefined) this.setState({ currentImageIndex: index })
+
+        else { }
     }
 
     render() {
@@ -23,6 +23,8 @@ class CartImagePreviewTab extends Component {
                 <CartItem.PreviewTabContainer>
                     {
                         this.props.images && this.props.images.map((value, index) => {
+                            console.log({value})
+
                             return (
                                 <CartItem.PreviewImg
                                     hidden={this.state.currentImageIndex !== index}
@@ -31,12 +33,17 @@ class CartImagePreviewTab extends Component {
                             )
                         })
                     }
-                    <CartItem.PreviewTabControllerLeft onClick={() => this.changeImage(buttonStates.BACKWARD)} >
-                        {"<"}
-                    </CartItem.PreviewTabControllerLeft>
-                    <CartItem.PreviewTabControllerRight onClick={() => this.changeImage(buttonStates.FORWARD)} >
-                        {">"}
-                    </CartItem.PreviewTabControllerRight>
+                    {
+                        this.props.images && this.props.images[1] &&
+                        <>
+                            <CartItem.PreviewTabControllerLeft onClick={() => this.changeImage(buttonStates.BACKWARD)} >
+                                {"<"}
+                            </CartItem.PreviewTabControllerLeft>
+                            <CartItem.PreviewTabControllerRight onClick={() => this.changeImage(buttonStates.FORWARD)} >
+                                {">"}
+                            </CartItem.PreviewTabControllerRight>
+                        </>
+                    }
                 </CartItem.PreviewTabContainer>
 
                 {/* <CartItem.Warning>

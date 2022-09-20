@@ -1,13 +1,16 @@
 import { nanoid } from '@reduxjs/toolkit'
 import { Component } from 'react'
 import { catchError, fetchAllProductsByCategory } from '../../services/gqlApi'
+import EmptyNotification from '../notification/empty'
+import ErrorNotification from '../notification/error'
+import Loading from '../notification/loading'
 import CardItem from './CardItem'
 import { GridCard } from './styles'
 
 
 class CardList extends Component {
     state = {
-        data: null,
+        data: [],
         isLoading: false,
         isError: false
     }
@@ -42,25 +45,38 @@ class CardList extends Component {
     }
 
     render() {
+        console.log({ state: this.state.data })
         // props defined here but not in constructor: console.log({props: this.props})
         return (
             <>
                 <GridCard>
                     {
-                        this.state.data && this.state.data.map((value) =>
-                            <CardItem cardValue={value} key={nanoid()} />
-                        )
+                        this.state.data !== null &&
+                        <>
+                            {
+                                this.state.data?.map((value) =>
+                                    <CardItem cardValue={value} key={nanoid()} />
+                                )
+                            }
+                            {
+                                !this.state.data[0] &&
+                                <div>
+                                    <EmptyNotification message="The list is empty"/>
+                                </div>
+                            }
+                        </>
+
                     }
                     {
                         this.state.isError &&
                         <>
-                            <div>Error</div>
+                            <ErrorNotification message="Could not fetch data" fullScreen={true} />
                         </>
                     }
                     {
                         this.state.isLoading &&
                         <>
-                            <div>loading</div>
+                            <Loading />
                         </>
                     }
                 </GridCard>

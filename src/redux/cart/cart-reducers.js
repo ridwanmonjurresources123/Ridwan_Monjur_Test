@@ -1,4 +1,4 @@
-import { createReducer, current } from "@reduxjs/toolkit"
+import { createReducer } from "@reduxjs/toolkit"
 import {
   addProductToCartAction,
   removeProductToCartAction,
@@ -118,7 +118,7 @@ const cartReducer = createReducer(cartState, (builder) => {
     }
 
     newCart.forEach((value, index) => {
-      if (index != payload.index) {
+      if (index !== payload.index) {
         if (value.brand === newCart[payload.index].brand
           &&
           value.name === newCart[payload.index].name

@@ -7,7 +7,7 @@ export const productState = {
   currencies: [],
   categories: [],
   loading: false,
-  error: ""
+  error: false
 }
 
 const currencyReducer = createReducer(productState, (builder) => {
@@ -26,6 +26,7 @@ const currencyReducer = createReducer(productState, (builder) => {
     return {
       ...state,
       loading: false,
+      error: false,
       currencies: [...payload.currencies],
       categories: [...payload.categories]
     }
@@ -34,14 +35,16 @@ const currencyReducer = createReducer(productState, (builder) => {
   builder.addCase(fetchAllCurrenciesAndCategoriesAction.rejected, (state, { payload }) => {
     return {
       ...state,
-      loading: false
+      loading: false,
+      error: payload.error,
     }
   })
 
   builder.addCase(fetchAllCurrenciesAndCategoriesAction.pending, (state, { payload }) => {
     return {
       ...state,
-      loading: true
+      loading: true,
+      error: false
     }
   })
 
