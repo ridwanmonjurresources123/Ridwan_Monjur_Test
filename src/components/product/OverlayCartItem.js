@@ -3,12 +3,8 @@ import { OverlayCartItem } from './styles'
 import { connect } from 'react-redux'
 import { editCartAttributeAction, incrementValueToCartAction } from '../../redux/cart/cart-action'
 
-class OverlayCartComponent extends Component {
-    constructor() {
-        super()
-
-    }
-
+class OverlayCartItemComponent extends Component {
+    
     editForm({ attribute, index, id, value }) {
         this.props.dispatchAddProductToCartAction({ attribute, index, id, value })
     }
@@ -116,4 +112,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(OverlayCartComponent)
+)(OverlayCartItemComponent)

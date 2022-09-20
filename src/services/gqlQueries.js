@@ -1,4 +1,4 @@
-import { gql } from "graphql-request";
+import { gql } from "graphql-request"
 
 const ALL_PRODUCTS_BY_CATEGORY = (categoryName)=>  
 gql`query {

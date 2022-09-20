@@ -8,9 +8,6 @@ const initialState = { attributes: {}, missingAttributes: [], quantity: 1 }
 class ProductDescription extends Component {
     state = { ...initialState }
 
-    constructor() {
-        super()
-    }
 
     addForm(attribute, { id, value }) {
         this.setState((prev) => {

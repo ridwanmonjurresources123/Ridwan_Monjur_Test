@@ -1,13 +1,9 @@
 import { Component } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Grid } from './styles'
+import { Card } from './styles'
 import { connect } from 'react-redux'
 
-class CardComponent extends Component {
-    constructor() {
-        super()
-    }
-
+class CardItemComponent extends Component {
     generateLinkIfOutOfStock(inStock) {
         return inStock ?
             null
@@ -18,14 +14,7 @@ class CardComponent extends Component {
 
         // No loop in this part, just expose component/ block made of elements!
         let { cardValue, currentCurrency } = this.props
-        /* 
-        brand: "Sony"
-        gallery; (5) 
-        id: "ps-5"
-        inStock: false
-        name: "PlayStation 5"
-        prices: Array(5)
-        */
+        
         return (
             <>
                 <Card>
@@ -58,4 +47,4 @@ function mapStateToProps(state) {
 
 export default connect(
     mapStateToProps
-)(CardComponent)
+)(CardItemComponent)

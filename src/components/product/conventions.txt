@@ -1,0 +1,9 @@
+1. Levels (from lowest to highest):
+a) Item: list item
+b) List: list && c) Component
+d) Feauture: comprises of many Lists and Components and styles
+e) Page: typically no styles here. made with b, c, d.
+
+2. Fetch/ redux/ router can be accessed at any level except list item leve, with the aim to:
+a) minimize the number of fetch calls - first priority
+b) minimize props dealing

@@ -1,15 +1,13 @@
-import { Component, createRef, Fragment } from 'react'
+import { Component, createRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Nav, Dropdown } from './styles'
 import CompanyLogo from '../../../images/company.png'
-import OverlayCartComponent from '../../product/OverlayCartItem'
 import { connect } from 'react-redux'
 import { withRouterHOC } from '../../../utils/withRouterHOC'
 import DropdownIcon from './styles/DropdownIcon.styled'
 import { changeCurrencyAction } from '../../../redux/products/products-action'
-import { OverlayCartItem } from '../../product/styles'
-import { nanoid } from '@reduxjs/toolkit'
-import { roundOffTwoDP } from '../../../redux/cart/cart-utils'
+import OverlayCart from '../../product/OverlayCart'
+import Currency from '../../product/Currency'
 
 const initialState = {
     cartDropdown: true, currencyDropdown: true
@@ -74,16 +72,20 @@ class Navigation extends Component {
         this.toggleDropDownState = this.toggleDropDownState.bind(this)
 
         this.changeOpacity = this.changeOpacity.bind(this)
+
+        this.routerDirectToCartPage = this.routerDirectToCartPage.bind(this)
+
+        this.changeCurrency = this.changeCurrency.bind(this)
     }
 
     routerDirectToCartPage() {
+        // need to bind this
         this.props.router.navigate("../cart")
     }
 
     render() {
         // delete this
-        let { router } = this.props
-
+        console.log({ navProps: this.props.router })
         return (
             <Nav ref={this.myRef} id='nav'>
                 <div>
@@ -92,7 +94,7 @@ class Navigation extends Component {
                         this.props.categories.map((value, index) => {
                             return (
                                 <Nav.Link
-                                    active={this.props.router.params?.category == value.name}
+                                    active={this.props.router.params?.category === value.name}
                                     key={`${index} ${value.name}`}>
                                     <Link to={`../category/${value.name}`} replace>
                                         {value.name}
@@ -113,18 +115,7 @@ class Navigation extends Component {
                                 <DropdownIcon.Arrow>⌄</DropdownIcon.Arrow></DropdownIcon>
                         </Dropdown.MenuButton>
                         <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['currencyDropdown']}>
-                            {
-                                this.props.currencies && this.props.currencies.map((value, index) => {
-                                    return (
-                                        <Dropdown.ItemDiv
-                                            onClick={() => this.changeCurrency({ ...value, index })}
-                                            key={`${nanoid()}`
-                                            }
-                                        >
-                                            <span> {value.symbol} {value.label} </span>
-                                        </Dropdown.ItemDiv>
-                                    )
-                                })}
+                           <Currency changeCurrency={this.changeCurrency}/>
                         </Dropdown.ItemContainer>
                     </Dropdown>
                     <Dropdown>
@@ -137,40 +128,7 @@ class Navigation extends Component {
                             </DropdownIcon>
                         </Dropdown.MenuButton>
                         <Dropdown.ItemContainer isInvisible={this.state.dropDownClose['cartDropdown']}>
-                            <OverlayCartItem.Container>
-                                <OverlayCartItem.Heading>My bag</OverlayCartItem.Heading>
-                                {
-                                    this.props.cart && this.props.cart.map((value, cartIndex) => {
-                                        return (
-                                            <Fragment key={`${nanoid()}`}>
-                                                <OverlayCartComponent cart={{ ...value }} cartIndex={cartIndex} />
-                                            </Fragment>
-                                        )
-                                    })
-                                }
-                                <div style={{ margin: "5px", display: "flex", justifyContent: "space-around" }}>
-                                    {!this.props.totalQuantity ?
-                                        <h3>No items to display! </h3>
-                                        :
-                                        <>
-                                            <span>Total: </span>
-                                            <span>
-                                                {roundOffTwoDP(
-                                                    Number(this.props.total[this.props.currentCurrency]) + Number(this.props.total[this.props.currentCurrency]) * this.props.tax)
-                                                }
-                                            </span>
-                                        </>
-                                    }
-                                </div>
-                                <OverlayCartItem.ButtonContainer>
-                                    <OverlayCartItem.ButtonViewCart onClick={() => this.routerDirectToCartPage()}>
-                                        View bag
-                                    </OverlayCartItem.ButtonViewCart>
-                                    <OverlayCartItem.ButtonCheckoutCart>
-                                        Check out
-                                    </OverlayCartItem.ButtonCheckoutCart>
-                                </OverlayCartItem.ButtonContainer>
-                            </OverlayCartItem.Container>
+                            <OverlayCart routerDirectToCartPage={this.routerDirectToCartPage} />
                         </Dropdown.ItemContainer>
                     </Dropdown>
                 </div>

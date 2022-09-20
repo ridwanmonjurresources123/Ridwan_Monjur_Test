@@ -10,7 +10,6 @@ class ProductPreview extends Component {
     constructor() {
         super()
 
-
         this.changeCurrentImage = this.changeCurrentImage.bind(this)
     }
 

@@ -16,10 +16,6 @@ class CartImagePreviewTab extends Component {
         else {}
     }
 
-    constructor() {
-        super()
-    }
-
     render() {
 
         return (

@@ -1,55 +1,65 @@
 import { Component } from 'react'
-import ProductPreview from '../../components/product/ProductPreview'
-import ProductDescription from '../../components/product/ProductDescription'
+import ProductPreview from '../../components/product/DescriptionImagePreviewTab'
+import ProductDescription from '../../components/product/DescriptionItem'
 import { Description } from '../../components/product/styles'
 import { withRouterHOC } from '../../utils/withRouterHOC'
-import { fetchProducById } from '../../services/gqlApi'
+import { catchError, fetchProducById } from '../../services/gqlApi'
 import Navigation from '../../components/layouts/Navigation/Navigation'
-import CartComponent from '../../components/product/CartComponent'
 import Footer from '../../components/layouts/Footer'
 
 class DescriptionPage extends Component {
     state = {
-        description: null
+        data: null,
+        isLoading: false,
+        isError: false
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         let { productId } = this.props.router.params
 
-        fetchProducById(productId).then((value) => {
+        this.setState((prev) => { return { ...prev, isLoading: true } })
 
-            this.setState({ description: value.product })
+        let { data, error } = await catchError(
+            fetchProducById(productId)
+                .then((data) => {
+                    return data.product
+                })
+        )
+
+        this.setState({
+            data,
+            isLoading: false,
+            isError: error
         })
-        /* 
-        attributes: Array(2) [ 
-            {name: 'Color', items: Array(5)}
-            {name: "Capacity", }]
-        brand: "Microsoft"
-        category: "tech"
-        description: "...." 
-        gallery: []
-        inStock: false
-        name
-        prices: {anount, currency: label, symbol}
-        */
     }
 
     render() {
+        console.log({ data: this.state })
         return (
             <>
-                <Navigation/>
-                {
-                    this.state.description ?
-                        <main>
-                            <Description>
-                                <ProductPreview images={this.state.description.gallery} />
-                                <ProductDescription description={{ ...this.state.description }}  />
-                            </Description>
-                        </main>
-                    :
-                    <main>Loading</main>
-                }
-                <Footer/>
+                <Navigation />
+                <main>
+                    {
+                        this.state.data &&
+                        <Description>
+                            <ProductPreview images={this.state.data?.gallery} />
+                            <ProductDescription description={{ ...this.state.data }} />
+                        </Description>
+                    }
+                    {
+                        this.state.isError &&
+                        <>
+                            <div>Error</div>
+                        </>
+                    }
+                    {
+                        this.state.isLoading &&
+                        <>
+                            <div>loading</div>
+                        </>
+                    }
+                </main>
+                <Footer />
             </>
         )
     }

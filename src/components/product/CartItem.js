@@ -4,12 +4,8 @@ import { connect } from 'react-redux'
 import { editCartAttributeAction, incrementValueToCartAction } from '../../redux/cart/cart-action'
 import CartImagePreviewTab from './CartImagePreviewTab'
 
-class CartComponent extends Component {
-    constructor() {
-        super()
-    }
-
-    editForm({ attribute, index, id, value }) {
+class CartItemComponent extends Component {
+        editForm({ attribute, index, id, value }) {
         this.props.dispatchAddProductToCartAction({ attribute, index, id, value })
     }
 
@@ -107,4 +103,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CartComponent)
+)(CartItemComponent)
